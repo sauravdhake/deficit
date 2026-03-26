@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "HR Productivity Dashboard"
+version = "1.0.0"
+id = "artifacts/hr-dashboard"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18229
+
+[services.development]
+run = "PORT=18229 pnpm --filter @workspace/hr-dashboard run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/hr-dashboard", "run", "build" ]
+publicDir = "artifacts/hr-dashboard/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18229"
+BASE_PATH = "/"

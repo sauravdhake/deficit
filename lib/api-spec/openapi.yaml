@@ -1,0 +1,677 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: HR Productivity Dashboard API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: dashboard
+    description: Dashboard summary and analytics
+  - name: employees
+    description: Employee operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [dashboard]
+      summary: Get dashboard summary stats
+      description: Returns total employees, FT count, DTN count
+      responses:
+        "200":
+          description: Summary stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+
+  /dashboard/resource-counts:
+    get:
+      operationId: getResourceCounts
+      tags: [dashboard]
+      summary: Resource count by project type
+      description: Returns resource counts broken down by project type (Retainer, Fixed Fee, Managed Service, Internal) and FT/DTN
+      parameters:
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Resource counts by category
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceCountsResponse"
+
+  /dashboard/leave-analytics:
+    get:
+      operationId: getLeaveAnalytics
+      tags: [dashboard]
+      summary: Employee leave analytics by project type
+      description: Returns leave counts broken down by project type and FT/DTN
+      parameters:
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Leave analytics by category
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeaveAnalyticsResponse"
+
+  /dashboard/productivity:
+    get:
+      operationId: getProductivity
+      tags: [dashboard]
+      summary: Overall resource productivity percentage
+      description: Returns avg productivity as achieved/allocated hours * 100
+      parameters:
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Productivity percentage
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductivityResponse"
+
+  /dashboard/productivity-trend:
+    get:
+      operationId: getProductivityTrend
+      tags: [dashboard]
+      summary: Weekly productivity trend data
+      description: Returns productivity data points for a trend line chart
+      parameters:
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [week, month]
+            default: week
+      responses:
+        "200":
+          description: Trend data points
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductivityTrendResponse"
+
+  /dashboard/lagging-resources:
+    get:
+      operationId: getLaggingResources
+      tags: [dashboard]
+      summary: Lagging resources by project type
+      description: Returns employees with productivity lag (days not logged EOD), grouped by project type. Excludes non-delivery teams.
+      parameters:
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Lagging resources grouped by category
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LaggingResourcesResponse"
+
+  /employees:
+    get:
+      operationId: getEmployees
+      tags: [employees]
+      summary: Get employee list
+      description: Returns paginated list of employees with productivity lag and the count of leave days taken within the date range. If no dates are provided, defaults to the previous week's Monday to Friday.
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Search by name or employee ID
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: lagFilter
+          in: query
+          schema:
+            type: string
+            enum: [all, has_lag, last_week, last_month]
+          description: Filter employees by lag period
+        - name: leaveFilter
+          in: query
+          schema:
+            type: string
+            enum: [all, took_leave, took_earned, took_sick]
+          description: Filter employees by leave taken in the period
+      responses:
+        "200":
+          description: Employee list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeeListResponse"
+
+  /employees/export:
+    get:
+      operationId: exportEmployees
+      tags: [employees]
+      summary: Export employee list as CSV
+      description: Returns all employees as a CSV file with all columns
+      parameters:
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: CSV file
+          content:
+            text/csv:
+              schema:
+                type: string
+
+  /employees/{empId}/report:
+    get:
+      operationId: getEmployeeReport
+      tags: [employees]
+      summary: Get individual employee report
+      description: Returns productivity lag in days, HR and PM comments, productivity trend, and the count of leave days taken by the employee in the filtered date range (defaults to previous week's Monday to Friday).
+      parameters:
+        - name: empId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Employee report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeeReport"
+        "404":
+          description: Employee not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /employees/{empId}/comment:
+    put:
+      operationId: saveEmployeeComment
+      tags: [employees]
+      summary: Save HR comment for an employee
+      description: Saves or updates HR comment for an employee (stored in local DB)
+      parameters:
+        - name: empId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SaveCommentRequest"
+      responses:
+        "200":
+          description: Comment saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SaveCommentResponse"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    DashboardSummary:
+      type: object
+      properties:
+        totalEmployees:
+          type: integer
+        fullTimeCount:
+          type: integer
+        dtnCount:
+          type: integer
+      required:
+        - totalEmployees
+        - fullTimeCount
+        - dtnCount
+
+    ResourceCountRow:
+      type: object
+      properties:
+        category:
+          type: string
+        ftCount:
+          type: integer
+        dtnCount:
+          type: integer
+        total:
+          type: integer
+      required:
+        - category
+        - ftCount
+        - dtnCount
+        - total
+
+    ResourceCountsResponse:
+      type: object
+      properties:
+        rows:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResourceCountRow"
+      required:
+        - rows
+
+    LeaveAnalyticsRow:
+      type: object
+      properties:
+        category:
+          type: string
+        ftLeaves:
+          type: number
+        dtnLeaves:
+          type: number
+        totalLeaves:
+          type: number
+      required:
+        - category
+        - ftLeaves
+        - dtnLeaves
+        - totalLeaves
+
+    LeaveAnalyticsResponse:
+      type: object
+      properties:
+        rows:
+          type: array
+          items:
+            $ref: "#/components/schemas/LeaveAnalyticsRow"
+      required:
+        - rows
+
+    ProductivityResponse:
+      type: object
+      properties:
+        productivityPercent:
+          type: number
+          description: Overall productivity percentage (0-100)
+      required:
+        - productivityPercent
+
+    TrendDataPoint:
+      type: object
+      properties:
+        label:
+          type: string
+          description: Day or date label (e.g. Mon, Tue or 2024-01-01)
+        productivityPercent:
+          type: number
+      required:
+        - label
+        - productivityPercent
+
+    ProductivityTrendResponse:
+      type: object
+      properties:
+        dataPoints:
+          type: array
+          items:
+            $ref: "#/components/schemas/TrendDataPoint"
+      required:
+        - dataPoints
+
+    LaggingEmployee:
+      type: object
+      properties:
+        empId:
+          type: integer
+        name:
+          type: string
+        doodleId:
+          type: string
+        team:
+          type: string
+        lagDays:
+          type: integer
+          description: Number of working days without EOD submission
+        daysLogged:
+          type: integer
+        expectedDays:
+          type: integer
+      required:
+        - empId
+        - name
+        - doodleId
+        - team
+        - lagDays
+        - daysLogged
+        - expectedDays
+
+    LaggingResourceCategory:
+      type: object
+      properties:
+        category:
+          type: string
+        count:
+          type: integer
+        employees:
+          type: array
+          items:
+            $ref: "#/components/schemas/LaggingEmployee"
+      required:
+        - category
+        - count
+        - employees
+
+    LaggingResourcesResponse:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/LaggingResourceCategory"
+      required:
+        - categories
+
+    PmComment:
+      type: object
+      properties:
+        comment:
+          type: string
+        date:
+          type: string
+      required:
+        - comment
+        - date
+
+    EmployeeTrendPoint:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        hoursLogged:
+          type: number
+        isLagDay:
+          type: boolean
+      required:
+        - date
+        - hoursLogged
+        - isLagDay
+
+    EmployeeListItem:
+      type: object
+      properties:
+        empId:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        doodleId:
+          type: string
+        team:
+          type: string
+        grade:
+          type: string
+        earnedLeaves:
+          type: number
+          description: Total number of Earned Leave days (ID 2) TAKEN during the date range
+        sickLeaves:
+          type: number
+          description: Total number of Sick/Emergency Leave days (ID 1) TAKEN during the date range
+        otherLeaves:
+          type: number
+          description: Total number of Other Leave days (Casual ID 3, Comp-off ID 4, Optional ID 5) TAKEN during the date range
+        totalLeaves:
+          type: number
+          description: Total number of ALL leaves TAKEN during the date range
+        lagDays:
+          type: integer
+          description: Working days without EOD submission (0 for exempt teams)
+        hrComment:
+          type: string
+          nullable: true
+        pmComment:
+          type: string
+          nullable: true
+        isDtn:
+          type: boolean
+      required:
+        - empId
+        - firstName
+        - lastName
+        - doodleId
+        - team
+        - grade
+        - earnedLeaves
+        - sickLeaves
+        - otherLeaves
+        - totalLeaves
+        - lagDays
+        - isDtn
+
+    EmployeeListResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        employees:
+          type: array
+          items:
+            $ref: "#/components/schemas/EmployeeListItem"
+      required:
+        - total
+        - page
+        - limit
+        - employees
+
+    EmployeeReport:
+      type: object
+      properties:
+        empId:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        doodleId:
+          type: string
+        team:
+          type: string
+        grade:
+          type: string
+        isDtn:
+          type: boolean
+        category:
+          type: string
+          description: Project type category (Retainer, Fixed Fee, Managed Service, etc.)
+        earnedLeaves:
+          type: number
+          description: Total number of Earned Leave days (ID 2) TAKEN during the date range
+        sickLeaves:
+          type: number
+          description: Total number of Sick/Emergency Leave days (ID 1) TAKEN during the date range
+        otherLeaves:
+          type: number
+          description: Total number of Other Leave days (Casual ID 3, Comp-off ID 4, Optional ID 5) TAKEN during the date range
+        totalLeaves:
+          type: number
+          description: Total number of ALL leaves TAKEN during the date range
+        lagDays:
+          type: integer
+          description: Number of working days without EOD submission (0 for exempt teams)
+        daysLogged:
+          type: integer
+        expectedDays:
+          type: integer
+        productivityLevel:
+          type: string
+          description: "Low / Moderate / High based on lag days"
+        hrComment:
+          type: string
+          nullable: true
+        pmComments:
+          type: array
+          items:
+            $ref: "#/components/schemas/PmComment"
+        productivityTrend:
+          type: array
+          items:
+            $ref: "#/components/schemas/EmployeeTrendPoint"
+      required:
+        - empId
+        - firstName
+        - lastName
+        - doodleId
+        - team
+        - grade
+        - isDtn
+        - category
+        - earnedLeaves
+        - sickLeaves
+        - otherLeaves
+        - totalLeaves
+        - lagDays
+        - daysLogged
+        - expectedDays
+        - productivityLevel
+        - pmComments
+        - productivityTrend
+
+    SaveCommentRequest:
+      type: object
+      properties:
+        comment:
+          type: string
+      required:
+        - comment
+
+    SaveCommentResponse:
+      type: object
+      properties:
+        empId:
+          type: integer
+        comment:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - empId
+        - comment
+        - updatedAt

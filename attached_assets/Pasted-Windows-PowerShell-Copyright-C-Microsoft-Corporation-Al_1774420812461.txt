@@ -1,0 +1,317 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\DB-L-229> ssh -i C:\Users\DB-L-229\Downloads\HrDashboard.pem ubuntu@13.232.220.60
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.17.0-1007-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Wed Mar 25 06:28:49 UTC 2026
+
+  System load:  0.08              Temperature:              -273.1 C
+  Usage of /:   61.6% of 6.71GB   Processes:                158
+  Memory usage: 18%               Users logged in:          0
+  Swap usage:   0%                IPv4 address for enp39s0: 172.31.9.58
+
+ * Ubuntu Pro delivers the most comprehensive open source security and
+   compliance features.
+
+   https://ubuntu.com/aws/pro
+
+Expanded Security Maintenance for Applications is not enabled.
+
+1 update can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+1 additional security update can be applied with ESM Apps.
+Learn more about enabling ESM Apps service at https://ubuntu.com/esm
+
+
+*** System restart required ***
+Last login: Tue Mar 24 18:23:01 2026 from 223.233.81.181
+ubuntu@ip-172-31-9-58:~$ cd ~/Hr_dashboard && git pull origin main
+-bash: cd: /home/ubuntu/Hr_dashboard: No such file or directory
+ubuntu@ip-172-31-9-58:~$ cd ~/Hr_dashboard
+-bash: cd: /home/ubuntu/Hr_dashboard: No such file or directory
+ubuntu@ip-172-31-9-58:~$ ls
+ubuntu@ip-172-31-9-58:~$ ls -la
+total 36
+drwxr-x--- 5 ubuntu ubuntu 4096 Mar 24 19:06 .
+drwxr-xr-x 3 root   root   4096 Mar 23 13:41 ..
+-rw------- 1 ubuntu ubuntu 1114 Mar 24 19:06 .bash_history
+-rw-r--r-- 1 ubuntu ubuntu  220 Mar 31  2024 .bash_logout
+-rw-r--r-- 1 ubuntu ubuntu 3771 Mar 31  2024 .bashrc
+drwx------ 2 ubuntu ubuntu 4096 Mar 24 18:20 .cache
+drwxrwxr-x 3 ubuntu ubuntu 4096 Mar 24 18:29 .local
+-rw-r--r-- 1 ubuntu ubuntu  807 Mar 31  2024 .profile
+drwx------ 2 ubuntu ubuntu 4096 Mar 23 13:41 .ssh
+-rw-r--r-- 1 ubuntu ubuntu    0 Mar 24 18:21 .sudo_as_admin_successful
+ubuntu@ip-172-31-9-58:~$ ls /root/
+ls /opt/
+ls /srv/
+ls: cannot open directory '/root/': Permission denied
+containerd
+ubuntu@ip-172-31-9-58:~$ ls /root/
+ls: cannot open directory '/root/': Permission denied
+ubuntu@ip-172-31-9-58:~$ find / -name "docker-compose.yml" 2>/dev/null
+ubuntu@ip-172-31-9-58:~$ sudo ss -tlnp | grep :80
+LISTEN 0      4096         0.0.0.0:80         0.0.0.0:*    users:(("docker-proxy",pid=4107,fd=7))
+LISTEN 0      4096            [::]:80            [::]:*    users:(("docker-proxy",pid=4113,fd=7))
+ubuntu@ip-172-31-9-58:~$ sudo ls /root/
+snap
+ubuntu@ip-172-31-9-58:~$ docker ps
+CONTAINER ID   IMAGE              COMMAND                  CREATED        STATUS                  PORTS                                 NAMES
+71f1c6632c6f   hr_dashboard-web   "/docker-entrypoint.…"   12 hours ago   Up 12 hours             0.0.0.0:80->80/tcp, [::]:80->80/tcp   hr_dashboard-web-1
+e14f0cac3685   hr_dashboard-api   "docker-entrypoint.s…"   12 hours ago   Up 12 hours (healthy)   8080/tcp                              hr_dashboard-api-1
+ubuntu@ip-172-31-9-58:~$ docker inspect hr_dashboard-web-1 | grep -i "workingdir\|composefile\|configfile"
+            "WorkingDir": "/",
+ubuntu@ip-172-31-9-58:~$ docker inspect hr_dashboard-web-1 | grep -i "com.docker.compose"
+                "com.docker.compose.config-hash": "68647aa0cc3a73b6a97f8269b971411b265996770fef703ce0a3bf6794a2b25a",
+                "com.docker.compose.container-number": "1",
+                "com.docker.compose.depends_on": "api:service_healthy:false",
+                "com.docker.compose.image": "sha256:9dd5566e0a3f69e3a4495d9c480686999c83ec7efd918afa81435027709f8242",
+                "com.docker.compose.image.builder": "classic",
+                "com.docker.compose.oneoff": "False",
+                "com.docker.compose.project": "hr_dashboard",
+                "com.docker.compose.project.config_files": "/home/ubuntu/Hr_dashboard/docker-compose.yml",
+                "com.docker.compose.project.working_dir": "/home/ubuntu/Hr_dashboard",
+                "com.docker.compose.service": "web",
+                "com.docker.compose.version": "5.1.1",
+ubuntu@ip-172-31-9-58:~$ ls /home/ubuntu/Hr_dashboard
+ls: cannot access '/home/ubuntu/Hr_dashboard': No such file or directory
+ubuntu@ip-172-31-9-58:~$ cd ~
+git clone https://github.com/sauravdhake/Hr_dashboard.git
+cd Hr_dashboard
+Cloning into 'Hr_dashboard'...
+Username for 'https://github.com': sauravdhake
+Password for 'https://sauravdhake@github.com':
+remote: Enumerating objects: 386, done.
+remote: Counting objects: 100% (386/386), done.
+remote: Compressing objects: 100% (223/223), done.
+remote: Total 386 (delta 147), reused 385 (delta 146), pack-reused 0 (from 0)
+Receiving objects: 100% (386/386), 8.41 MiB | 19.48 MiB/s, done.
+Resolving deltas: 100% (147/147), done.
+ubuntu@ip-172-31-9-58:~/Hr_dashboard$ nano .env
+ubuntu@ip-172-31-9-58:~/Hr_dashboard$ docker compose up --build -d
+unknown flag: --build
+
+Usage:  docker [OPTIONS] COMMAND [ARG...]
+
+Run 'docker --help' for more information
+ubuntu@ip-172-31-9-58:~/Hr_dashboard$ docker-compose up --build -d
+WARN[0000] Docker Compose requires buildx plugin to be installed
+Sending build context to Docker daemon    199kB
+Step 1/33 : FROM node:24-alpine AS base
+ ---> 3d11569681e4
+Step 2/33 : RUN corepack enable && corepack prepare pnpm@10.26.1 --activate
+ ---> Using cache
+ ---> 55acb8ba90a8
+Step 3/33 : WORKDIR /app
+ ---> Using cache
+ ---> d98d23950a6b
+Step 4/33 : FROM base AS deps
+ ---> d98d23950a6b
+Step 5/33 : COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+ ---> Using cache
+ ---> a95548899f45
+Step 6/33 : COPY lib/api-client-react/package.json ./lib/api-client-react/
+ ---> Using cache
+ ---> 9c05f181ca1c
+Step 7/33 : COPY lib/api-spec/package.json          ./lib/api-spec/
+ ---> Using cache
+ ---> f44b39344130
+Step 8/33 : COPY lib/api-zod/package.json           ./lib/api-zod/
+ ---> Using cache
+ ---> 3138ba2fe5fd
+Step 9/33 : COPY lib/db/package.json                ./lib/db/
+ ---> Using cache
+ ---> 26ec1e3e1583
+Step 10/33 : COPY artifacts/api-server/package.json  ./artifacts/api-server/
+ ---> Using cache
+ ---> 61e03bf93e32
+Step 11/33 : RUN pnpm install --frozen-lockfile
+ ---> Using cache
+ ---> cfbd499567bd
+Step 12/33 : FROM deps AS builder
+ ---> cfbd499567bd
+Step 13/33 : COPY lib/           ./lib/
+ ---> 159d46ce27f0
+Step 14/33 : COPY artifacts/api-server/ ./artifacts/api-server/
+ ---> e0edd59e025a
+Step 15/33 : COPY tsconfig.base.json tsconfig.json ./
+ ---> 3f65dc14a00c
+Step 16/33 : RUN pnpm --filter @workspace/api-server run build
+ ---> Running in 1f2c3d8472da
+
+> @workspace/api-server@0.0.0 build /app/artifacts/api-server
+> node ./build.mjs
+
+
+  dist/index.mjs                       1.4mb ⚠️
+  dist/pino-worker.mjs               153.4kb
+  dist/pino-file.mjs                 142.0kb
+  dist/pino-pretty.mjs               114.6kb
+  dist/thread-stream-worker.mjs        7.3kb
+  dist/index.mjs.map                   2.2mb
+  dist/pino-worker.mjs.map           256.9kb
+  dist/pino-file.mjs.map             229.0kb
+  dist/pino-pretty.mjs.map           203.9kb
+  dist/thread-stream-worker.mjs.map   12.0kb
+
+⚡ Done in 369ms
+ ---> Removed intermediate container 1f2c3d8472da
+ ---> ea24bf41cafa
+Step 17/33 : FROM node:24-alpine AS runner
+ ---> 3d11569681e4
+Step 18/33 : RUN corepack enable && corepack prepare pnpm@10.26.1 --activate
+ ---> Using cache
+ ---> 55acb8ba90a8
+Step 19/33 : WORKDIR /app
+ ---> Using cache
+ ---> d98d23950a6b
+Step 20/33 : COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+ ---> Using cache
+ ---> a95548899f45
+Step 21/33 : COPY lib/api-client-react/package.json ./lib/api-client-react/
+ ---> Using cache
+ ---> 9c05f181ca1c
+Step 22/33 : COPY lib/api-spec/package.json          ./lib/api-spec/
+ ---> Using cache
+ ---> f44b39344130
+Step 23/33 : COPY lib/api-zod/package.json           ./lib/api-zod/
+ ---> Using cache
+ ---> 3138ba2fe5fd
+Step 24/33 : COPY lib/db/package.json                ./lib/db/
+ ---> Using cache
+ ---> 26ec1e3e1583
+Step 25/33 : COPY artifacts/api-server/package.json  ./artifacts/api-server/
+ ---> Using cache
+ ---> 61e03bf93e32
+Step 26/33 : RUN pnpm install --frozen-lockfile --prod
+ ---> Using cache
+ ---> f6afaec25692
+Step 27/33 : COPY --from=builder /app/artifacts/api-server/dist ./artifacts/api-server/dist
+ ---> 1e5a542acaee
+Step 28/33 : WORKDIR /app/artifacts/api-server
+ ---> Running in e261b5949bd7
+ ---> Removed intermediate container e261b5949bd7
+ ---> aa1d45056d52
+Step 29/33 : ENV NODE_ENV=production
+ ---> Running in dd9ad18b8401
+ ---> Removed intermediate container dd9ad18b8401
+ ---> 4ef110efee6d
+Step 30/33 : ENV PORT=8080
+ ---> Running in 721660b84c03
+ ---> Removed intermediate container 721660b84c03
+ ---> c6aeb815487b
+Step 31/33 : EXPOSE 8080
+ ---> Running in f432234fcb72
+ ---> Removed intermediate container f432234fcb72
+ ---> a99142136fdd
+Step 32/33 : CMD ["node", "--enable-source-maps", "./dist/index.mjs"]
+ ---> Running in 086ee1a66fbb
+ ---> Removed intermediate container 086ee1a66fbb
+ ---> d775b0238ee3
+Step 33/33 : LABEL com.docker.compose.image.builder=classic
+ ---> Running in 60b72e7a25bd
+ ---> Removed intermediate container 60b72e7a25bd
+ ---> 93875c8a69dd
+Successfully built 93875c8a69dd
+Successfully tagged hr_dashboard-api:latest
+Sending build context to Docker daemon    199kB
+Step 1/23 : FROM node:24-alpine AS base
+ ---> 3d11569681e4
+Step 2/23 : RUN corepack enable && corepack prepare pnpm@10.26.1 --activate
+ ---> Using cache
+ ---> 55acb8ba90a8
+Step 3/23 : WORKDIR /app
+ ---> Using cache
+ ---> d98d23950a6b
+Step 4/23 : FROM base AS deps
+ ---> d98d23950a6b
+Step 5/23 : COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+ ---> Using cache
+ ---> a95548899f45
+Step 6/23 : COPY lib/api-client-react/package.json ./lib/api-client-react/
+ ---> Using cache
+ ---> 9c05f181ca1c
+Step 7/23 : COPY lib/api-spec/package.json          ./lib/api-spec/
+ ---> Using cache
+ ---> f44b39344130
+Step 8/23 : COPY lib/api-zod/package.json           ./lib/api-zod/
+ ---> Using cache
+ ---> 3138ba2fe5fd
+Step 9/23 : COPY lib/db/package.json                ./lib/db/
+ ---> Using cache
+ ---> 26ec1e3e1583
+Step 10/23 : COPY artifacts/hr-dashboard/package.json ./artifacts/hr-dashboard/
+ ---> Using cache
+ ---> f523a9c51d67
+Step 11/23 : RUN pnpm install --frozen-lockfile
+ ---> Using cache
+ ---> 77de5cac8c4a
+Step 12/23 : FROM deps AS builder
+ ---> 77de5cac8c4a
+Step 13/23 : COPY lib/              ./lib/
+ ---> a6839df57b30
+Step 14/23 : COPY artifacts/hr-dashboard/ ./artifacts/hr-dashboard/
+ ---> 5942f0316f0c
+Step 15/23 : COPY tsconfig.base.json tsconfig.json ./
+ ---> bf397f922bf2
+Step 16/23 : ENV NODE_ENV=production
+ ---> Running in 3e614bbd8298
+ ---> Removed intermediate container 3e614bbd8298
+ ---> f258d3777290
+Step 17/23 : RUN pnpm --filter @workspace/hr-dashboard run build
+ ---> Running in 3de6538ac898
+
+> @workspace/hr-dashboard@0.0.0 build /app/artifacts/hr-dashboard
+> vite build --config vite.config.ts
+
+/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+                throw new Error(
+                      ^
+
+Error: Cannot find module @rollup/rollup-linux-x64-musl. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+    at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+    at Module._compile (node:internal/modules/cjs/loader:1812:14)
+    at Object..js (node:internal/modules/cjs/loader:1943:10)
+    at Module.load (node:internal/modules/cjs/loader:1533:32)
+    at Module._load (node:internal/modules/cjs/loader:1335:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at loadCJSModuleWithModuleLoad (node:internal/modules/esm/translators:328:3)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:233:7)
+    at ModuleJob.run (node:internal/modules/esm/module_job:430:25) {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-x64-musl'
+  Require stack:
+  - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+      at Module._resolveFilename (node:internal/modules/cjs/loader:1456:15)
+      at defaultResolveImpl (node:internal/modules/cjs/loader:1066:19)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1071:22)
+      at Module._load (node:internal/modules/cjs/loader:1242:25)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+      at Module.require (node:internal/modules/cjs/loader:1556:12)
+      at require (node:internal/modules/helpers:152:16)
+      at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+      at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+      at Module._compile (node:internal/modules/cjs/loader:1812:14) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+    ]
+  }
+}
+
+Node.js v24.14.0
+/app/artifacts/hr-dashboard:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/hr-dashboard@0.0.0 build: `vite build --config vite.config.ts`
+Exit status 1
+[+] up 1/2
+ ✔ Image hr_dashboard-api Built                                                                                     2.1s
+ ⠙ Image hr_dashboard-web Building                                                                                  1.1s
+The command '/bin/sh -c pnpm --filter @workspace/hr-dashboard run build' returned a non-zero code: 1

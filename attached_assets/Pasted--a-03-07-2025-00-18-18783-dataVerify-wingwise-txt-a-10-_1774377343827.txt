@@ -1,0 +1,66 @@
+-a----        03-07-2025     00:18          18783 dataVerify-wingwise.txt
+-a----        10-07-2024     19:29          26700 Demo.zip
+-a----        06-05-2025     17:06          11197 docDigital.xlsx
+-a----        10-02-2025     14:48            963 doc_2025-02-10_14-48-28.env.production-lgp.txt
+-a----        16-03-2026     10:44        6847729 Doodleblue-ATS-Body-1 (3).zip
+-a----        06-10-2025     13:55           2796 envAINews.txt
+-a----        16-05-2025     12:42          22201 esign.zip
+-a----        07-10-2024     14:01          76865 estimation.txt
+-a----        29-10-2025     14:52        3457323 FolderShare (2).zip
+-a----        10-02-2026     17:57           4040 genAi.txt
+-a----        26-06-2025     15:49          51522 guru.txt
+-a----        25-04-2025     19:45       36822010 homechef.zip
+-a----        25-02-2026     18:05          10174 HummnizerReport.xlsx
+-a----        19-02-2025     14:54        4620845 LGP Technical DocumentationX.docx
+-a----        25-02-2025     19:31         340546 LGP-KT.png
+-a----        23-10-2025     16:33      374856318 LoginExplorer (3).zip
+-a----        23-06-2025     11:09         437948 NdSoft.zip
+-a----        09-02-2025     09:53          37407 NEW WO.postman_collection.json
+-a----        01-07-2024     18:52           7667 newFabricDetails.txt
+-a----        15-09-2025     13:05          13530 News-AI-based-Application.txt
+-a----        18-09-2025     17:15           2786 news.html
+-a----        11-02-2026     10:22          81940 newsEngineTimesheet.xlsx
+-a----        17-09-2025     17:04      111313931 NewsForge.zip
+-a----        20-11-2025     13:41              0 news_sources.csv
+-a----        20-03-2026     20:12          13259 nodejs_training_report_sumit_suhail.xlsx
+-a----        27-06-2025     15:11            163 non-productivity trade.txt
+-a----        20-02-2026     17:03          10209 patrikaResponse.txt
+-a----        10-10-2024     02:02           9213 paymentcapture.txt
+-a----        13-09-2025     12:14          28466 pratiti_Backend.zip
+-a----        23-03-2026     16:22      117923882 Productivity-Dashboard (2).zip
+-a----        24-03-2026     15:38      119993724 Productivity-Dashboard (3).zip
+-a----        24-03-2026     23:32      128992900 Project-Takedown (2).zip
+-a----        04-07-2025     20:14          70571 project.controller
+-a----        21-05-2024     19:20        1722645 project.zip
+-a----        07-02-2026     08:52      161485408 Python-Roadmap (1).zip
+-a----        10-10-2025     11:50          12108 Rajstan-patrika-TimeSheet.xlsx
+-a----        08-05-2025     17:39          21239 Ratthhaa.zip
+-a----        02-07-2025     23:31          39773 refractorCode02-07-2025.txt
+-a----        26-12-2025     19:18          10565 roho.xlsx
+-a----        24-12-2025     15:18         436462 roho_preprod
+-a----        19-12-2025     13:38         436030 roho_preprod.json
+-a----        19-12-2025     16:56         436030 roho_preprod1
+-a----        14-11-2025     17:00          77236 RP-Timesheet.xlsx
+-a----        19-06-2024     17:05          30274 SBA copy.zip
+-a----        23-06-2025     11:18           1359 script.txt
+-a----        23-06-2025     11:29            649 script.zip
+-a----        20-11-2025     13:41              0 sentiment_analysis.csv
+-a----        08-04-2025     18:41          34998 sobha.xlsx
+-a----        09-11-2025     21:31          10803 sprint03-11-2025.xlsx
+-a----        12-07-2024     17:22          13053 sqlDBComparison.zip
+-a----        23-07-2025     19:24           9906 subactivity graph 23-07-2025.txt
+-a----        23-06-2025     18:59           6017 subactivityAbstract.txt
+-a----        24-06-2025     22:20          19772 subActivityAbstractProductivity.txt
+-a----        10-07-2024     19:29          26997 swagger.zip
+-a----        11-07-2025     19:39          17612 TimeSheet.xlsx
+-a----        06-12-2025     08:17          11757 timesheetAICRM.xlsx
+-a----        24-04-2025     19:29          13165 TimesheetSOBHA.xlsx
+-a----        02-05-2025     12:42          14420 trial.zip
+-a----        27-02-2026     19:14           6572 twitter.txt
+-a----        20-11-2025     13:42            653 users.csv
+-a----        23-03-2026     13:01          12458 Workbook1.xlsx
+-a----        21-02-2025     16:16           9980 workordersupplyUpdateAPI.txt
+-a----        09-10-2024     18:23       35832130 zip.zip
+
+
+PS C:\Users\DB-L-229>
