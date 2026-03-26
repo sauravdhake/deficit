@@ -1,0 +1,15 @@
+packages:
+  "recharts": "For the donut and line charts on the dashboard"
+  "date-fns": "For date formatting and manipulation"
+  "clsx": "For conditional tailwind classes"
+  "tailwind-merge": "For conditional tailwind classes"
+  "lucide-react": "For icons"
+  "@radix-ui/react-dialog": "For accessible modals"
+  "@radix-ui/react-slot": "For component composition"
+
+images: []
+
+notes:
+  - Using generated API hooks from @workspace/api-client-react
+  - Implemented a global FilterContext to share date ranges across pages
+  - Added enterprise dark-navy theme

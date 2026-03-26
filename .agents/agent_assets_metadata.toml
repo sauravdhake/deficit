@@ -1,0 +1,38 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "FtImExAXx-noJhhWcJ3Pm"
+uri = "file://PROJECT_GUIDE.md"
+type = "text"
+title = "HR Dashboard — Developer & Client Guide (with Testing Flow)"
+
+[[outputs]]
+id = "gUfMyCSF2bu8UWGzqGs7j"
+uri = "file://TEST_PLAN.md"
+type = "text"
+title = "HR Dashboard — Complete Test Plan"
+
+[[outputs]]
+id = "-EdM3QKNimqEhMVaIYWnO"
+uri = "file://LEAVE_DEFICIT_FEATURE_PROPOSAL.md"
+type = "text"
+title = "Leave Deficit Feature — Final Proposal (All Questions Answered)"
+
+[[outputs]]
+id = "fmGg1Y7hu9osKiMVrBaIN"
+uri = "file://demo-docs/CLIENT_DEMO_GUIDE.md"
+type = "text"
+title = "Client Demo Guide — HR Dashboard"
+
+[[outputs]]
+id = "4I500h_wUDeMNuiS0gx8k"
+uri = "file://demo-docs/CLIENT_DEMO_GUIDE_2025.md"
+type = "text"
+title = "Client Demo Guide — 2025 Full Year Data"
+
+[[outputs]]
+id = "WiLM0efoj7JhbbCwQacX6"
+uri = "file://demo-docs/CLIENT_DEMO_GUIDE_JAN_FEB_2026.md"
+type = "text"
+title = "Client Demo Guide — Jan, Feb & Negative Balance (Mar 2026)"

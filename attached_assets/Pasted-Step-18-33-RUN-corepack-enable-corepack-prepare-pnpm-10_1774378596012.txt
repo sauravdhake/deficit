@@ -1,0 +1,190 @@
+Step 18/33 : RUN corepack enable && corepack prepare pnpm@10.26.1 --activate
+ ---> Using cache
+ ---> 55acb8ba90a8
+Step 19/33 : WORKDIR /app
+ ---> Using cache
+ ---> d98d23950a6b
+Step 20/33 : COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+ ---> Using cache
+ ---> a95548899f45
+Step 21/33 : COPY lib/api-client-react/package.json ./lib/api-client-react/
+ ---> Using cache
+ ---> 9c05f181ca1c
+Step 22/33 : COPY lib/api-spec/package.json          ./lib/api-spec/
+ ---> Using cache
+ ---> f44b39344130
+Step 23/33 : COPY lib/api-zod/package.json           ./lib/api-zod/
+ ---> Using cache
+ ---> 3138ba2fe5fd
+Step 24/33 : COPY lib/db/package.json                ./lib/db/
+ ---> Using cache
+ ---> 26ec1e3e1583
+Step 25/33 : COPY artifacts/api-server/package.json  ./artifacts/api-server/
+ ---> Using cache
+ ---> 61e03bf93e32
+Step 26/33 : RUN pnpm install --frozen-lockfile --prod
+ ---> Using cache
+ ---> f6afaec25692
+Step 27/33 : COPY --from=builder /app/artifacts/api-server/dist ./artifacts/api-server/dist
+ ---> Using cache
+ ---> ed29b2a6a1f2
+Step 28/33 : WORKDIR /app/artifacts/api-server
+ ---> Using cache
+ ---> 8834c48e2c6c
+Step 29/33 : ENV NODE_ENV=production
+ ---> Using cache
+ ---> 0f7191eae29c
+Step 30/33 : ENV PORT=8080
+ ---> Using cache
+ ---> 2aaa06b45a10
+Step 31/33 : EXPOSE 8080
+ ---> Using cache
+ ---> 2fe53e2cd83b
+Step 32/33 : CMD ["node", "--enable-source-maps", "./dist/index.mjs"]
+ ---> Using cache
+ ---> e0f7b3ebf6b1
+Step 33/33 : LABEL com.docker.compose.image.builder=classic
+ ---> Using cache
+ ---> 570b3e40ce7e
+Successfully built 570b3e40ce7e
+Successfully tagged hr_dashboard-api:latest
+Sending build context to Docker daemon  197.8kB
+Step 1/23 : FROM node:24-slim AS base
+24-slim: Pulling from library/node
+6db0909c4473: Pull complete
+f338f4ce51e0: Pull complete
+a57bdd3e230f: Pull complete
+93ee29de81c9: Pull complete
+776241850f38: Pull complete
+Digest: sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8
+Status: Downloaded newer image for node:24-slim
+ ---> fc739c52279c
+Step 2/23 : RUN corepack enable && corepack prepare pnpm@10.26.1 --activate
+ ---> Running in cb612bc2d7d4
+Preparing pnpm@10.26.1 for immediate activation...
+ ---> Removed intermediate container cb612bc2d7d4
+ ---> e653506f17d0
+Step 3/23 : WORKDIR /app
+ ---> Running in 3126d4104d8f
+ ---> Removed intermediate container 3126d4104d8f
+ ---> 422c7ca2d66f
+Step 4/23 : FROM base AS deps
+ ---> 422c7ca2d66f
+Step 5/23 : COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+ ---> 0230f9f8e23d
+Step 6/23 : COPY lib/api-client-react/package.json ./lib/api-client-react/
+ ---> 3efc7988dc49
+Step 7/23 : COPY lib/api-spec/package.json          ./lib/api-spec/
+ ---> b74c80f742e3
+Step 8/23 : COPY lib/api-zod/package.json           ./lib/api-zod/
+ ---> 57c3122ac5f6
+Step 9/23 : COPY lib/db/package.json                ./lib/db/
+ ---> 36d50904be6b
+Step 10/23 : COPY artifacts/hr-dashboard/package.json ./artifacts/hr-dashboard/
+ ---> aa42b3ba0552
+Step 11/23 : RUN pnpm install --frozen-lockfile
+ ---> Running in c41f8adaf721
+Scope: all 6 workspace projects
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +389
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+   ╭───────────────────────────────────────────────╮
+   │                                               │
+   │     Update available! 10.26.1 → 10.33.0.      │
+   │     Changelog: https://pnpm.io/v/10.33.0      │
+   │   To update, run: corepack use pnpm@10.33.0   │
+   │                                               │
+   ╰───────────────────────────────────────────────╯
+
+Progress: resolved 389, reused 0, downloaded 85, added 85
+Progress: resolved 389, reused 0, downloaded 169, added 163
+Progress: resolved 389, reused 0, downloaded 181, added 167
+Progress: resolved 389, reused 0, downloaded 275, added 273
+Progress: resolved 389, reused 0, downloaded 365, added 340
+Progress: resolved 389, reused 0, downloaded 389, added 389, done
+.../esbuild@0.27.3/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.27.3/node_modules/esbuild postinstall: Done
+
+devDependencies:
++ prettier 3.8.1
++ typescript 5.9.3
+
+. preinstall$ sh -c 'rm -f package-lock.json yarn.lock; case "$npm_config_user_agent" in pnpm/*) ;; *) echo "Use pnpm instead" >&2; exit 1 ;; esac'
+. preinstall: Done
+Done in 6.2s using pnpm v10.26.1
+ ---> Removed intermediate container c41f8adaf721
+ ---> df4e62dae84f
+Step 12/23 : FROM deps AS builder
+ ---> df4e62dae84f
+Step 13/23 : COPY lib/              ./lib/
+ ---> 501403eaff09
+Step 14/23 : COPY artifacts/hr-dashboard/ ./artifacts/hr-dashboard/
+ ---> 69c94aadae1c
+Step 15/23 : COPY tsconfig.base.json tsconfig.json ./
+ ---> d17fde473b69
+Step 16/23 : ENV NODE_ENV=production
+ ---> Running in ad28c1ee105a
+ ---> Removed intermediate container ad28c1ee105a
+ ---> 7acc042b3e45
+Step 17/23 : RUN pnpm --filter @workspace/hr-dashboard run build
+ ---> Running in 21e169c89909
+
+> @workspace/hr-dashboard@0.0.0 build /app/artifacts/hr-dashboard
+> vite build --config vite.config.ts
+
+vite v7.3.1 building client environment for production...
+transforming...
+src/components/ui/calendar.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+✓ 3685 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/public/index.html                   0.75 kB │ gzip:   0.42 kB
+dist/public/assets/index-D8_kQQqS.css   99.68 kB │ gzip:  15.87 kB
+dist/public/assets/index-D77RiUO7.js   914.35 kB │ gzip: 265.63 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.41s
+ ---> Removed intermediate container 21e169c89909
+ ---> 7cc4165b2f6f
+Step 18/23 : FROM nginx:1.27-alpine AS runner
+1.27-alpine: Pulling from library/nginx
+f18232174bc9: Pull complete
+61ca4f733c80: Pull complete
+b464cfdf2a63: Pull complete
+d7e507024086: Pull complete
+81bd8ed7ec67: Pull complete
+197eb75867ef: Pull complete
+34a64644b756: Pull complete
+39c2ddfd6010: Pull complete
+Digest: sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10
+Status: Downloaded newer image for nginx:1.27-alpine
+ ---> 6769dc3a703c
+Step 19/23 : COPY --from=builder /app/artifacts/hr-dashboard/dist/public /usr/share/nginx/html
+ ---> fba97b06f3be
+Step 20/23 : COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+ ---> b07a46c6fba0
+Step 21/23 : EXPOSE 80
+ ---> Running in 7f9a73b659ad
+ ---> Removed intermediate container 7f9a73b659ad
+ ---> a62ca19ac917
+Step 22/23 : CMD ["nginx", "-g", "daemon off;"]
+ ---> Running in f7245c570e32
+ ---> Removed intermediate container f7245c570e32
+ ---> 364562792981
+Step 23/23 : LABEL com.docker.compose.image.builder=classic
+ ---> Running in 1b74bf263320
+ ---> Removed intermediate container 1b74bf263320
+ ---> 9dd5566e0a3f
+Successfully built 9dd5566e0a3f
+Successfully tagged hr_dashboard-web:latest
+[+] up 5/5
+ ✔ Image hr_dashboard-api       Built                                                                              0.1s
+ ✔ Image hr_dashboard-web       Built                                                                              44.8s
+ ✔ Network hr_dashboard_default Created                                                                            0.0s
+ ✔ Container hr_dashboard-api-1 Healthy                                                                            30.7s
+ ✔ Container hr_dashboard-web-1 Started  
